@@ -1,6 +1,6 @@
 # Canlender
 
-canlender_holiday:  
+canlender_holidays:  
 苹果中国节假日日历订阅 fork from https://github.com/lanceliao/china-holiday-calender
 
 canlender\_{year}\_jr:  
