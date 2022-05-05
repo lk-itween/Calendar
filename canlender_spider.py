@@ -1,3 +1,8 @@
+"""
+获取网络节日日历数据，构建苹果日历数据
+from url: https://www.rili.com.cn/jieridaquan/
+to: canlender_{year}_jr.ics
+"""
 from datetime import datetime
 import re
 import httpx
