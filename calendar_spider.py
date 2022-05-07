@@ -33,12 +33,12 @@ def set_ics_header(year):
            + "END:VTIMEZONE\n"
 
   
-def set_jr_ics(jr, date):
+def set_jr_ics(jr, date, uid):
     return "BEGIN:VEVENT\n" \
            + f"DTSTART;VALUE=DATE:{date}\n" \
            + f"DTEND;VALUE=DATE:{date}\n" \
            + f"DTSTAMP:{date}T000001\n" \
-           + f"UID:{date}T000001_jr\n" \
+           + f"UID:{date}T{uid:0>6}_jr\n" \
            + f"CREATED:{date}T000001\n" \
            + f"DESCRIPTION:{jr}\n" \
            + f"LAST-MODIFIED:{now}\n" \
@@ -48,7 +48,7 @@ def set_jr_ics(jr, date):
            + "TRANSP:TRANSPARENT\n" \
            + "END:VEVENT\n"
   
- 
+
 def get_url():
     headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -76,7 +76,7 @@ def parse_jr_date(text, y):
     jr, dt = text.split('[')
     dt = f'{y}年' + re.search(r'\d{1,2}月\d{1,2}日', dt).group()
     dt = datetime.strptime(dt, '%Y年%m月%d日').strftime('%Y%m%d')
-    return set_jr_ics(jr, dt)
+    return jr, dt
 
 
 def parse_html(html):
@@ -92,7 +92,15 @@ def parse_html(html):
 
 def concat_ics(y, jr):
     header = set_ics_header(y)
-    jr_ics = ''.join(map(parse_jr_date, jr, [y] * len(jr)))
+    jr_rq = list(map(parse_jr_date, jr, [y] * len(jr)))
+    # 将同一天的节日进行编号
+    jr_rq.sort(key=lambda x: x[1])
+    pre_num = 0
+    for num in range(len(jr_rq)):
+        if jr_rq[num][1] != jr_rq[pre_num][1]:
+            pre_num = num
+        jr_rq[num] += (num - pre_num + 1,)
+    jr_ics = ''.join(map(lambda x: set_jr_ics(*x), jr_rq))
     return header + jr_ics + 'END:VCALENDAR'
 
 
