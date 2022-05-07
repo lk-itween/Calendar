@@ -1,7 +1,7 @@
 """
 获取网络节日日历数据，构建苹果日历数据
 from url: https://www.rili.com.cn/jieridaquan/
-to: canlendar_{year}_jr.ics
+to: calendar_{year}_jr.ics
 """
 from datetime import datetime
 import re
@@ -103,5 +103,5 @@ if __name__ == '__main__':
     assert rl_html, '数据获取失败'
     year, jr_list = parse_html(rl_html)
     jr_ics = concat_ics(year, jr_list)
-    filename = f'canlendar_{year}_jr.ics'
+    filename = f'calendar_{year}_jr.ics'
     save_ics(filename, jr_ics)
