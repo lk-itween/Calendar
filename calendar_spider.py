@@ -33,7 +33,7 @@ def set_ics_header(year):
            + "END:VTIMEZONE\n"
 
   
-def set_jr_ics(jr, date, uid):
+def set_jr_ics(jr, date, uid):  # jr: 节日，date：日期，uid：编序
     return "BEGIN:VEVENT\n" \
            + f"DTSTART;VALUE=DATE:{date}\n" \
            + f"DTEND;VALUE=DATE:{date}\n" \
@@ -90,7 +90,7 @@ def parse_html(html):
     return y, jr_rili
 
 
-def concat_ics(y, jr):
+def concat_ics(y, jr):  # 返回一个完整的ics文件内容
     header = set_ics_header(y)
     jr_rq = list(map(parse_jr_date, jr, [y] * len(jr)))
     # 将同一天的节日进行编号
