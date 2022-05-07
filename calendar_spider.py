@@ -90,7 +90,7 @@ def parse_html(html):
 def concat_ics(y, jr):
     header = set_ics_header(y)
     jr_ics = ''.join(map(parse_jr_date, jr, [y] * len(jr)))
-    return header + jr_ics
+    return header + jr_ics + 'END:VCALENDAR'
 
 
 def save_ics(fname, text):
