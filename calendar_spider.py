@@ -84,6 +84,8 @@ def parse_html(html):
     date = html.xpath('//meta[@name="LastUpdate"]/@content')[0]
     y = datetime.strptime(date, '%Y/%m/%d %H:%M:%S').year
     jr_rili = ''.join(html.xpath('//li[@class="jr1"]//text()')).split(']')[:-1]
+    # 规避gitee代码审查ics文件违规部分
+    jr_rili = [i for i in jr_rili if '逝世' not in i and '毛泽东' not in i]
     return y, jr_rili
 
 
